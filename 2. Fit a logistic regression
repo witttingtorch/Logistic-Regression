@@ -1,0 +1,3 @@
+#use logit as the link function
+glm_fit = glm(recent_cannabis_use ~ .,data=drug_use_train,family=binomial(link= “logit”))
+summary(glm_fit)
