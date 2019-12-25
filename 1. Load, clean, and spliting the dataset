@@ -1,0 +1,27 @@
+#Load, clean, and spliting the dataset
+library(readr)
+drug_use <- read_csv(‘drug.csv’,col_names=c(‘ID’,’Age’,’Gender’,’Education’,’Country’,’Ethnicity’,’Nscore’,’Escore’,’Oscore’,’Ascore’,’Cscore’,’Impulsive’,’SS’,’Alcohol’,’Amphet’,’Amyl’,’Benzos’,’Caff’,’Cannabis’,’Choc’,’Coke’,’Crack’,’Ecstasy’,’Heroin’,’Ketamine’,’Legalh’,’LSD’,’Meth’,’Mushrooms’,’Nicotine’,’Semer’,’VSA’))
+library(dplyr)
+drug_use <- drug_use %>% mutate_at(as.ordered, .vars=vars(Alcohol:VSA)) 
+drug_use <- drug_use %>%
+ mutate(Gender = factor(Gender, labels=c(“Male”, “Female”))) %>%
+ mutate(Ethnicity = factor(Ethnicity, labels=c(“Black”, “Asian”, “White”,
+ “Mixed:White/Black”, “Other”,
+ “Mixed:White/Asian”,
+ “Mixed:Black/Asian”))) %>%
+ mutate(Country = factor(Country, labels=c(“Australia”, “Canada”, “New Zealand”, 
+ “Other”, “Ireland”, “UK”,”USA”)))
+ 
+#create a new factor variable called recent_cannabis_use
+drug_use = drug_use %>% 
+mutate(recent_cannabis_use=as.factor(ifelse(Cannabis>=”CL3",”Yes”,”No”)))
+
+#create a new tibble that includes a subset of the original variable 
+#data split into training and test sets
+drug_use_subset <- drug_use %>% select(Age:SS, recent_cannabis_use)
+set.seed(1)
+traint.indices = sample(1:nrow(drug_use_subset),1500)
+drug_use_train = drug_use_subset[traint.indices,]
+drug_use_test = drug_use_subset[-traint.indices,]
+dim(drug_use_train)
+dim(drug_use_test)
