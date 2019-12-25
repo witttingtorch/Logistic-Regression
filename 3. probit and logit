@@ -1,0 +1,7 @@
+#probit link function
+glm_fit_probit = glm(recent_cannabis_use ~ .,data=drug_use_train,family = binomial(link = “probit”))
+prob_training_probit = predict(glm_fit_probit, type=”response”)
+
+#c-log-log” link
+glm_fit_clog = glm(recent_cannabis_use ~ .,data=drug_use_train,family = binomial(link = “cloglog”))
+prob_training_clog = predict(glm_fit_clog, type=”response”)
