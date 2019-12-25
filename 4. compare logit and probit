@@ -1,0 +1,5 @@
+# compare logit and probit
+plot(prob_training_logit,prob_training_probit,xlab = “Fitted Values of Logit Model”,
+  ylab= “Fitted Values of Probit Model”, main= “Plot 1: Fitted Values for Logit and Probit Regressions”, 
+  pch=19, cex=0.2,abline(a=0,b=1,col=”red”))
+  
